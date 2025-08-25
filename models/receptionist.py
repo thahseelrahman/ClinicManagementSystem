@@ -84,8 +84,8 @@ class Patient:
         return self.__phone_no
  
     def set_phone_no(self, phone_no):
-        pattern = re.compile(r"^\+?\d{10,15}$")
-        if pattern.match(phone_no):
+        #integer with 10 digits
+        if isinstance(phone_no, str) and phone_no.isdigit() and len(phone_no) == 10:
             self.__phone_no = phone_no
         else:
             raise ValueError("Invalid phone number. Please provide a valid phone number.")
