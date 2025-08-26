@@ -22,6 +22,3 @@ def adminmain():
         #     AdminManagementLib.disable_staff()
         elif choice == 6:
             break
-
-if __name__ == "__main__":
-    main()
