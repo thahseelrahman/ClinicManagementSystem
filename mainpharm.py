@@ -24,6 +24,7 @@ def pharmamain():
             pharm_lib.add_medicine()
         elif choice == "2":
             pharm_lib.display_all_medicines()
+<<<<<<< HEAD
         # elif choice == "3":
         #     pharm_lib.search_medicines()  
         # elif choice == "4":
@@ -40,9 +41,33 @@ def pharmamain():
         #     bill_lib.search_bill()
         # elif choice == "10":
         #     bill_lib.update_bill()
+=======
+        elif choice == "3":
+            pharm_lib.search_medicines()  
+        elif choice == "4":
+            pharm_lib.update_medicine()
+        elif choice == "5":
+            pharm_lib.delete_medicine()
+        elif choice == "6":
+            pharm_lib.update_stock()
+        elif choice == "7":
+            bill_lib.add_bill()
+        elif choice == "8":
+            bill_lib.list_bills()
+        elif choice == "9":
+            bill_lib.search_bill()
+        elif choice == "10":
+            bill_lib.update_bill()
+>>>>>>> 946430c5d426f706945847bc224e0624a826bee5
         elif choice == "0":
             print("Exiting... Goodbye!")
             break
         else:
             print("Invalid choice. Please try again.")
 
+<<<<<<< HEAD
+=======
+if __name__ == "__main__":
+    main()
+
+>>>>>>> 946430c5d426f706945847bc224e0624a826bee5
