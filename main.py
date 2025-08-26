@@ -4,6 +4,7 @@ from models.admin import Staff,Credential
 from datetime import datetime, date
 from adminmain import adminmain
 from mainpharm import pharmamain
+from receptionistmain import receptionmain
 def main():
     dao_service: AdminAbstarct =Admindaosurvice()
     while True:
@@ -15,8 +16,7 @@ def main():
                 case "admin":
                     adminmain()
                 case "receptionist":
-                    # receptmenudrive()
-                    pass
+                    receptionmain()
                 case "doctor":
                     # doctormenudrive()
                     pass
