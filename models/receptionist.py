@@ -123,7 +123,7 @@ class Patient:
             raise ValueError("Invalid registration date. Please provide a valid date.")
 
     def __str__(self):
-        return f"Patient({self.__patient_id}, {self.__first_name}, {self.__last_name}, {self.__dob}, {self.__blood_group}, {self.__gender}, {self.__phone_no}, {self.__address}, {self.__email}, {self.__reg_date})"
+        return f"=====PATIENTS LIST=======\n------------------\nPatient Id: {self.__patient_id}\nFirst Name: {self.__first_name}\nLast Name: {self.__last_name}\nDate of Birth: {self.__dob}\nBlood Group: {self.__blood_group}\nGender: {self.__gender}\nPhone No: {self.__phone_no}\nAddress: {self.__address}\nEmail: {self.__email}\nRegistration Date: {self.__reg_date}\n=========================="
 
 #patient class created successfully
 
@@ -220,4 +220,4 @@ class Appointment:
         self.__diagnosis = diagnosis
 
     def __str__(self):
-        return f"Appointment Id: {self.__app_id}, Token No: {self.__token_no}, Patient Id: {self.__patient_id}, Doctor Id: {self.__doctor_id}, Appointment Date: {self.__appointment_date}, Appointment Time: {self.__appointment_time}, Status: {self.__status}, Symptoms: {self.__symptoms}, Diagnosis: {self.__diagnosis})"
+        return f"====APPOINTMENTS====\n-----------------------\nAppointment Id: {self.__app_id}\nToken No: {self.__token_no}\nPatient Id: {self.__patient_id}\nDoctor Id: {self.__doctor_id}\nAppointment Date: {self.__appointment_date}\nAppointment Time: {self.__appointment_time}\nStatus: {self.__status}\nSymptoms: {self.__symptoms}\nDiagnosis: {self.__diagnosis}\n-----------------------"

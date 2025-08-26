@@ -6,33 +6,39 @@ def main():
         # conn = db.get_connection()
         print("\n==========PATIENT MANAGEMENT MENU==========")
         print("1. ADD PATIENT")
-        print("2. GET PATIENT")
-        print("3. UPDATE PATIENT")
-        print("4. DELETE PATIENT")
+        print("2. GET ALL PATIENTS")
+        # print("3. GET PATIENT")
+        # print("4. UPDATE PATIENT")
+        # print("5. DELETE PATIENT")
         print("\n========APPOINTMENT MANAGEMENT========")
-        print("5. SCHEDULE APPOINTMENT")
-        print("6. EDIT APPOINTMENT")
-        print("7. CANCEL APPOINTMENT")
-        print("8. GET APPOINTMENT")
-        print("9. EXIT")
+        print("6. SCHEDULE APPOINTMENT")
+        print("7. GET ALL APPOINTMENTS")
+        # print("8. EDIT APPOINTMENT")
+        # print("9. CANCEL APPOINTMENT")
+        # print("10. GET APPOINTMENT")
+        print("11. EXIT")
         choice = input("Enter your choice : ")
         if choice == "1":
             ReceptionmanagementLib.add_patient()
         elif choice == "2":
-            ReceptionmanagementLib.get_patient()
+            ReceptionmanagementLib.get_all_patients()
         elif choice == "3":
-            ReceptionmanagementLib.update_patient()
+            ReceptionmanagementLib.get_patient()
         elif choice == "4":
-            ReceptionmanagementLib.delete_patient()
+            ReceptionmanagementLib.update_patient()
         elif choice == "5":
-            ReceptionmanagementLib.schedule_appointment()
+            ReceptionmanagementLib.delete_patient()
         elif choice == "6":
-            ReceptionmanagementLib.update_appointment()
+            ReceptionmanagementLib.schedule_appoinment()
         elif choice == "7":
-            ReceptionmanagementLib.cancel_appointment()
+            ReceptionmanagementLib.get_all_appointments()
         elif choice == "8":
-            ReceptionmanagementLib.get_appointment()
+            ReceptionmanagementLib.update_appointment()
         elif choice == "9":
+            ReceptionmanagementLib.cancel_appointment()
+        elif choice == "10":
+            ReceptionmanagementLib.get_appointment()
+        elif choice == "11":
             break
         else:
             print("Invalid choice!! Try again!!")
