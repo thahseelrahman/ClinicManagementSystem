@@ -13,4 +13,10 @@ class AdminAbstarct(ABC):
     @abstractmethod
     def display_staff_id(self):
         pass
+    @abstractmethod
+    def check_username(self,username):
+        pass
+    @abstractmethod
+    def check_password(self,password):
+        pass
 

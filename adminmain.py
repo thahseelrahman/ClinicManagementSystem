@@ -1,5 +1,5 @@
 from lib.AdminManagement import AdminManagementLib
-def main():
+def adminmain():
 
     while True:
         print("\n==============product management menu=================")

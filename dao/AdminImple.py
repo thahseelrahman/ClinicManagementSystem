@@ -8,6 +8,9 @@ class Admindaosurvice(AdminAbstarct):
     INSERT_STAFF = "INSERT INTO staff(dept_id,first_name,last_name,role_id,age,gender,phone_no,email,address,date_of_join,is_active) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     INSERT_CREDENTIAL = "INSERT INTO credentials(user_name,password,staff_id,role_id) VALUES (%s,%s,%s,%s)"
     DISPLAY_STAFF = "SELECT * FROM clinic_db.staff where staff_id = (SELECT max(staff_id) FROM clinic_db.staff)"
+    DISPLAY_ROLE = "SELECT role_name FROM role r JOIN credentials c ON c.role_id = r.role_id WHERE user_name = %s"
+    DISPLAY_ROLES = "SELECT role_name FROM role r JOIN credentials c ON c.role_id = r.role_id WHERE password = %s"
+    
     # FIND_BY_ID = "SELECT * FROM products WHERE productid = %s"
     # UPDATE_PRODUCT = "UPDATE products SET productname = %s,unitprice = %s WHERE productid = %s"
     # FIND_BY_NAME = "SELECT * FROM products WHERE productname = %s"
@@ -83,3 +86,29 @@ class Admindaosurvice(AdminAbstarct):
         finally:
             cursor.close()
         return staff
+    def check_username(self, username):
+        row =None
+        try:
+            cursor = self.conn.cursor(dictionary = True)
+            cursor.execute(self.DISPLAY_ROLE,(username,))
+            row = cursor.fetchone()
+            # for row in rows:
+            #     staff = (Credential(username = row))
+        except Exception as e:
+            print("Error fetching products:",e)    
+        finally:
+            cursor.close()
+        return row
+    def check_password(self, password):
+        row =None
+        try:
+            cursor = self.conn.cursor(dictionary = True)
+            cursor.execute(self.DISPLAY_ROLES,(password,))
+            row = cursor.fetchone()
+            # for row in rows:
+            #     staff = (Credential(username = row))
+        except Exception as e:
+            print("Error fetching products:",e)    
+        finally:
+            cursor.close()
+        return row
