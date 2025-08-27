@@ -1,6 +1,6 @@
 from dao.PharmacistImple import PharmacistDaoImplementation
 from dao.PharmacistAbstract import PharmacistDaoService
-from models.pharmacist import Pharmacist, Bill
+from models.pharmacist import Pharmacist
 from datetime import datetime
 
 class PharmacistManagementLib:
@@ -80,93 +80,4 @@ class PharmacistManagementLib:
                 print("Medicine deleted successfully...")
             else:
                 print("Something went wrong while deleting medicine.")
-
-    @staticmethod
-    def update_stock():
-        search_id = int(input("Enter Medicine ID to update stock: "))
-        new_stock = int(input("Enter new stock value: "))
-
-        if PharmacistManagementLib.dao_service.update_stock(search_id, new_stock):
-            print("Stock updated successfully...")
-        else:
-            print("Something went wrong while updating stock.")
-
-
-class BillingManagementLib:
-    """Handles billing operations for pharmacy"""
-    dao_service: PharmacistDaoService = PharmacistDaoImplementation()
-
-    @staticmethod
-    def add_bill():
-        bill_items = []
-        total_amount = 0
-        while True:
-            med_id = int(input("Enter Medicine ID to add to bill (0 to finish): "))
-            if med_id == 0:
-                break
-
-            medicine: Pharmacist = BillingManagementLib.dao_service.search_medicines(med_id)
-            if not medicine:
-                print("Medicine not found.")
-                continue
-
-            print(f"{medicine.get_med_name()} - Available stock: {medicine.get_stock()} - Unit Price: {medicine.get_unit_rate()}")
-            qty = int(input("Enter quantity to purchase: "))
-            if qty > medicine.get_stock():
-                print("Not enough stock.")
-                continue
-
-            BillingManagementLib.dao_service.update_stock(med_id, medicine.get_stock() - qty)
-            amount = qty * medicine.get_unit_rate()
-            total_amount += amount
-            bill_items.append({
-                "med_id": med_id,
-                "med_name": medicine.get_med_name(),
-                "quantity": qty,
-                "unit_price": medicine.get_unit_rate(),
-                "amount": amount
-            })
-            print(f"Added {qty} x {medicine.get_med_name()} to bill. Subtotal: {amount}")
-
-        if not bill_items:
-            print("No items in the bill.")
-            return
-
-        bill_obj = Bill()
-        bill_obj.set_items(bill_items)
-        bill_obj.set_total_amount(total_amount)
-        bill_obj.set_bill_date(datetime.now())
-
-        if BillingManagementLib.dao_service.add_bill(bill_obj):
-            print("Bill created successfully.")
-            print("---- BILL SUMMARY ----")
-            for item in bill_items:
-                print(f"{item['med_name']} | Qty: {item['quantity']} | Unit: {item['unit_price']} | Amount: {item['amount']}")
-            print(f"Total Amount: {total_amount}")
-        else:
-            print("Failed to create bill.")
-
-    @staticmethod
-    def list_bills():
-        bills = BillingManagementLib.dao_service.list_bills()  # must be implemented in DAO
-        if not bills:
-            print("No bills found.")
-            return
-        for bill in bills:
-            print(f"Bill ID: {bill.get_bill_id()} | Date: {bill.get_bill_date()} | Total Amount: {bill.get_total_amount()}")
-            print("Items:")
-            for item in bill.get_items():
-                print(f"  {item['med_name']} - Qty: {item['quantity']} - Unit Price: {item['unit_price']} - Amount: {item['amount']}")
-            print("---------------------------")
-
-    @staticmethod
-    def search_bill():
-        bill_id = int(input("Enter Bill ID to search: "))
-        bill = BillingManagementLib.dao_service.search_bill(bill_id)
-        if not bill:
-            print("Bill not found.")
-            return
-        print(f"Bill ID: {bill.get_bill_id()} | Date: {bill.get_bill_date()} | Total Amount: {bill.get_total_amount()}")
-        print("Items:")
-        for item in bill.get_items():
-            print(f"  {item['med_name']} - Qty: {item['quantity']} - Unit Price: {item['unit_price']} - Amount: {item['amount']}")
+  

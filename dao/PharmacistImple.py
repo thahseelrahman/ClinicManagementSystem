@@ -1,6 +1,6 @@
 from dao.PharmacistAbstract import PharmacistDaoService
 from db.db_connection import DBConnection
-from models.pharmacist import Pharmacist, Bill
+from models.pharmacist import Pharmacist
 from typing import List
 
 class PharmacistDaoImplementation(PharmacistDaoService):
@@ -16,7 +16,7 @@ class PharmacistDaoImplementation(PharmacistDaoService):
     DELETE_MEDICINE = "DELETE FROM Medicine WHERE med_id=%s"
     UPDATE_STOCK = "UPDATE Medicine SET stock=%s WHERE med_id=%s"
 
-    # ================== Bill Queries ==================
+
     INSERT_BILL = """INSERT INTO bills (bill_type, patient_id, ref_id, total_amount, status, bill_date) 
                      VALUES (%s, %s, %s, %s, %s, %s)"""
     FIND_BILL_BY_ID = "SELECT * FROM bills WHERE bill_id=%s"
@@ -124,122 +124,4 @@ class PharmacistDaoImplementation(PharmacistDaoService):
         finally:
             cursor.close()
         return medicines
-
-    def update_stock(self, med_id: int, new_stock: int) -> bool:
-        try:
-            cursor = self.conn.cursor()
-            cursor.execute(self.UPDATE_STOCK, (new_stock, med_id))
-            self.conn.commit()
-            return cursor.rowcount == 1
-        except Exception as e:
-            print("Error updating stock:", e)
-            return False
-        finally:
-            cursor.close()
-            
-    def add_bill(self, bill: Bill) -> bool:
-        try:
-            cursor = self.conn.cursor()
-            cursor.execute(self.INSERT_BILL, (
-                bill.get_bill_type(),
-                bill.get_patient_id(),
-                bill.get_ref_id(),
-                bill.get_total_amount(),
-                bill.get_status(),
-                bill.get_bill_date()
-            ))
-            self.conn.commit()
-            return cursor.rowcount == 1
-        except Exception as e:
-            print("Error creating bill:", e)
-            return False
-        finally:
-            cursor.close()
-
-    def search_bill(self, bill_id: int):
-        try:
-            cursor = self.conn.cursor(dictionary=True)
-            cursor.execute(self.FIND_BILL_BY_ID, (bill_id,))
-            row = cursor.fetchone()
-            if row:
-                bill = Bill(
-                    bill_id=row["bill_id"],
-                    bill_type=row["bill_type"],
-                    patient_id=row["patient_id"],
-                    ref_id=row["ref_id"],
-                    total_amount=row["total_amount"],
-                    status=row["status"],
-                    bill_date=row["bill_date"]
-                )
-        except Exception as e:
-            print("Error fetching bill:", e)
-        finally:
-            cursor.close()
-        return bill
-
-    # def updateBill(self, bill: Bill, bill_id: int) -> bool:
-    #     try:
-    #         cursor = self.conn.cursor()
-    #         cursor.execute(self.UPDATE_BILL, (
-    #             bill.get_bill_type(),
-    #             bill.get_patient_id(),
-    #             bill.get_ref_id(),
-    #             bill.get_total_amount(),
-    #             bill.get_status(),
-    #             bill.get_bill_date(),
-    #             bill_id
-    #         ))
-    #         self.conn.commit()
-    #         return cursor.rowcount == 1 
-    #     except Exception as e:
-    #         print("Error updating bill:", e)
-    #         return False
-    #     finally:
-    #         cursor.close()
-
-    # def deleteBill(self, bill_id: int) -> bool:
-    #     try:
-    #         cursor = self.conn.cursor()
-    #         cursor.execute(self.DELETE_BILL, (bill_id,))
-    #         self.conn.commit()
-    #         return cursor.rowcount == 1
-    #     except Exception as e:
-    #         print("Error deleting bill:", e)
-    #         return False
-    #     finally:
-    #         cursor.close()
-
-    def list_bills(self) -> List[Bill]:
-        bills = []
-        try:
-            cursor = self.conn.cursor(dictionary=True)
-            cursor.execute(self.LIST_BILLS)
-            rows = cursor.fetchall()
-            for row in rows:
-                bills.append(Bill(
-                    bill_id=row["bill_id"],
-                    bill_type=row["bill_type"],
-                    patient_id=row["patient_id"],
-                    ref_id=row["ref_id"],
-                    total_amount=row["total_amount"],
-                    status=row["status"],
-                    bill_date=row["bill_date"]
-                ))
-        except Exception as e:
-            print("Error listing bills:", e)
-        finally:
-            cursor.close()
-        return bills
-
-    # def payBill(self, bill_id: int) -> bool:
-    #     try:
-    #         cursor = self.conn.cursor()
-    #         cursor.execute(self.PAY_BILL, (bill_id,))
-    #         self.conn.commit()
-    #         return cursor.rowcount == 1 
-    #     except Exception as e:
-    #         print("Error paying bill:", e)
-    #         return False
-    #     finally:
-    #         cursor.close()
 
