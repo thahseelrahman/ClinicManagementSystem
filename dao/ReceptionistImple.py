@@ -61,10 +61,11 @@ class ReceptionistImple(ReceptionistAbstract):
         try:
             patients = []
             cursor = self.conn.cursor(dictionary = True)
-            cursor.execute(self.GET_ALL_PATIENTS)
+            cursor.execute(self.DISPLAY_PATIENTS)
             rows = cursor.fetchall()
             for row in rows:
                 patients.append(Patient(
+                    patient_id=row['patient_id'],
                     first_name=row['first_name'],
                     last_name=row['last_name'],
                     dob=row['dob'],
@@ -75,6 +76,7 @@ class ReceptionistImple(ReceptionistAbstract):
                     email=row['email'],
                     reg_date=row['reg_date']
                 ))
+            return patients    
         except Exception as e:
             print(f"Error fetching all patients: {e}")
         finally:

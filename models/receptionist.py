@@ -1,5 +1,5 @@
 import re
-from datetime import date,time
+from datetime import date,time,datetime
 #Patient class for getting and setting patient informations
 class Patient:
     'Python OOPs applied'
@@ -117,7 +117,10 @@ class Patient:
         return self.__reg_date
 
     def set_reg_date(self, reg_date):
+        #date cant be in the past
         if isinstance(reg_date,date):
+            if reg_date < date.today():
+                raise ValueError("Invalid registration date. Registration date cannot be in the past.")
             self.__reg_date = reg_date
         else:
             raise ValueError("Invalid registration date. Please provide a valid date.")
@@ -180,6 +183,9 @@ class Appointment:
         return self.__appointment_date
 
     def set_appointment_date(self, appointment_date):
+        #date cant be in the past
+        if appointment_date < date.today():
+            raise ValueError("Invalid appointment date. Appointment date cannot be in the past.")
         if isinstance(appointment_date, date):
             self.__appointment_date = appointment_date
         else:
@@ -190,6 +196,9 @@ class Appointment:
         return self.__appointment_time
 
     def set_appointment_time(self, appointment_time):
+        #time should not be in the past
+        if appointment_time < datetime.now().time():
+            raise ValueError("Invalid appointment time. Please provide a valid time.")
         if isinstance(appointment_time, time):
             self.__appointment_time = appointment_time
         else:
