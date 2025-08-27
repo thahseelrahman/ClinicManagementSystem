@@ -12,7 +12,7 @@ class ReceptionistImple(ReceptionistAbstract):
     UPDATE_PATIENT = "UPDATE patient SET first_name = %s, last_name = %s, dob = %s, blood_group = %s, gender = %s, phone_no = %s, address = %s, email = %s, reg_date = %s WHERE patient_id = %s"
     DELETE_PATIENT = "DELETE FROM patient WHERE patient_id = %s"
     GET_PATIENT = "SELECT * FROM patient WHERE patient_id = %s"
-    INSERT_APPOINTMENT = "INSERT INTO appoinment (token_no, doc_id, patient_id, app_date, app_time, status, symptoms, diagnosis) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+    INSERT_APPOINTMENT = "INSERT INTO appoinment (token_no, doc_id, patient_id, app_date, app_time, status) VALUES (%s, %s, %s, %s, %s, %s)"
     UPDATE_APPOINTMENT = "UPDATE appoinment SET token_no = %s, doc_id = %s, patient_id = %s, app_date = %s, app_time = %s, status = %s, symptoms = %s, diagnosis = %s WHERE app_id = %s"
     CANCEL_APPOINTMENT = "DELETE FROM appoinment WHERE app_id = %s"
     GET_APPOINTMENT = "SELECT * FROM appoinment WHERE app_id = %s"
@@ -81,11 +81,11 @@ class ReceptionistImple(ReceptionistAbstract):
             print(f"Error fetching all patients: {e}")
         finally:
             cursor.close()
-
+        return patients
     def schedule_appointment(self, appointment:Appointment):
         try:
             cursor = self.conn.cursor()
-            cursor.execute(self.INSERT_APPOINTMENT, (appointment.get_token_no(), appointment.get_patient_id(), appointment.get_doctor_id(), appointment.get_appointment_date(), appointment.get_appointment_time(), appointment.get_status(), appointment.get_symptoms(), appointment.get_diagnosis()))
+            cursor.execute(self.INSERT_APPOINTMENT, (appointment.get_token_no(), appointment.get_patient_id(), appointment.get_doctor_id(), appointment.get_appointment_date(), appointment.get_appointment_time(), appointment.get_status()))
             self.conn.commit()
             return cursor.rowcount == 1
         except Exception as e:

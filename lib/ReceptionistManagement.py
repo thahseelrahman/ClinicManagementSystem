@@ -98,8 +98,6 @@ class ReceptionmanagementLib:
         appointment_time = input("Enter Appointment Time (HH:MM:SS): ")
         appointment.set_appointment_time(datetime.strptime(appointment_time, "%H:%M:%S").time())
         appointment.set_status(input("Enter Status (Scheduled/Completed/Canceled): "))
-        appointment.set_symptoms(input("Enter Symptoms: "))
-        appointment.set_diagnosis(input("Enter Diagnosis: "))
         if ReceptionmanagementLib.dao_service.schedule_appointment(appointment):
             print("Appointment scheduled successfully.")
         else:

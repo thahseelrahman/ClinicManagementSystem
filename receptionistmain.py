@@ -1,6 +1,6 @@
 from db.db_connection import DBConnection
 from lib.ReceptionistManagement import ReceptionmanagementLib
-def main():
+def receptionmain():
     while True:
         # db = DBConnection()
         # conn = db.get_connection()
@@ -23,25 +23,29 @@ def main():
         elif choice == "2":
             ReceptionmanagementLib.get_all_patients()
         elif choice == "3":
-            ReceptionmanagementLib.get_patient()
+            # ReceptionmanagementLib.get_patient()
+            pass
         elif choice == "4":
-            ReceptionmanagementLib.update_patient()
+            # ReceptionmanagementLib.update_patient()
+            pass
         elif choice == "5":
-            ReceptionmanagementLib.delete_patient()
+            # ReceptionmanagementLib.delete_patient()
+            pass
         elif choice == "6":
             ReceptionmanagementLib.schedule_appoinment()
         elif choice == "7":
             ReceptionmanagementLib.get_all_appointments()
         elif choice == "8":
-            ReceptionmanagementLib.update_appointment()
+            # ReceptionmanagementLib.update_appointment()
+            pass
         elif choice == "9":
-            ReceptionmanagementLib.cancel_appointment()
+            # ReceptionmanagementLib.cancel_appointment()
+            pass
         elif choice == "10":
-            ReceptionmanagementLib.get_appointment()
+            # ReceptionmanagementLib.get_appointment()
+            pass
         elif choice == "11":
             break
         else:
             print("Invalid choice!! Try again!!")
 
-if __name__ == "__main__":
-    main()
