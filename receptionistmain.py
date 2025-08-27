@@ -32,11 +32,9 @@ def receptionmain():
             # ReceptionmanagementLib.delete_patient()
             pass
         elif choice == "6":
-            # ReceptionmanagementLib.schedule_appointment()
-            pass
+            ReceptionmanagementLib.schedule_appoinment()
         elif choice == "7":
-            # ReceptionmanagementLib.get_all_appointments()
-            pass
+            ReceptionmanagementLib.get_all_appointments()
         elif choice == "8":
             # ReceptionmanagementLib.update_appointment()
             pass
