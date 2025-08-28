@@ -1,8 +1,7 @@
 from lib.PharmacistManagement import PharmacistManagementLib
 
-def main():
+def pharmamain():
     pharm_lib = PharmacistManagementLib()
-
 
     while True:
         print("\n====== Pharmacist Management System ======")
@@ -37,7 +36,4 @@ def main():
             break
         else:
             print("Invalid choice. Please try again.")
-
-if __name__ == "__main__":
-    main()
 

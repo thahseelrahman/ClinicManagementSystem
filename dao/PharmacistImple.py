@@ -49,60 +49,6 @@ class PharmacistDaoImplementation(PharmacistDaoService):
         finally:
             cursor.close()
 
-    def search_medicines(self, med_id: int):
-        medicine = None
-        try:
-            cursor = self.conn.cursor(dictionary=True)
-            cursor.execute(self.FIND_MEDICINE_BY_ID, (med_id,))
-            row = cursor.fetchone()
-            if row:
-                medicine = Pharmacist(
-                    med_id=row["med_id"],
-                    med_name=row["med_name"],
-                    generic_name=row["generic_name"],
-                    manufacturer=row["manufacturer"],
-                    unit_rate=row["unit_rate"],
-                    stock=row["stock"],
-                    expiry_date=row["expiry_date"]
-                )
-        except Exception as e:
-            print("Error fetching medicine:", e)
-        finally:
-            cursor.close()
-        return medicine
-
-    def update_medicine(self, medicine: Pharmacist, med_id: int) -> bool:
-        try:
-            cursor = self.conn.cursor()
-            cursor.execute(self.UPDATE_MEDICINE, (
-                medicine.get_med_name(),
-                medicine.get_generic_name(),
-                medicine.get_manufacturer(),
-                medicine.get_unit_rate(),
-                medicine.get_stock(),
-                medicine.get_expiry_date(),
-                med_id
-            ))
-            self.conn.commit()
-            return cursor.rowcount == 1
-        except Exception as e:
-            print("Error updating medicine:", e)
-            return False
-        finally:
-            cursor.close()
-
-    def delete_medicine(self, med_id: int) -> bool:
-        try:
-            cursor = self.conn.cursor()
-            cursor.execute(self.DELETE_MEDICINE, (med_id,))
-            self.conn.commit()
-            return cursor.rowcount == 1
-        except Exception as e:
-            print("Error deleting medicine:", e)
-            return False
-        finally:
-            cursor.close()
-
     def display_all_medicines(self) -> List[Pharmacist]:
         medicines = []
         try:
@@ -124,4 +70,3 @@ class PharmacistDaoImplementation(PharmacistDaoService):
         finally:
             cursor.close()
         return medicines
-
