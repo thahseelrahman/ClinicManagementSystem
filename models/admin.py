@@ -207,42 +207,61 @@ class Credential:
     def set_role_id(self,role_id):
         self.__role_id = role_id
 #create doctor class
-# class doctor:
-#     def __init__(self,doc_id=None,staff_id=None,spec_id=None,consultation_fee=None,availability=None):
-#         self.__username = username
-#         self.__password = password
-#         self.__staff_id = staff_id
-#         self.__role_id = role_id
-#     #getter for username
-#     def get_username(self):
-#         return self.__username
-#     #setter for username
-#     def set_username(self,username):
-#         pattern = re.compile(r'^[a-zA-Z0-9]{6,}$')
-#         if not pattern.match(username):
-#             raise ValueError("Invalid username should be include alphabets and digits and contain minimum 6 digit ")
-#         self.__username = username
-#     #getter for password
-#     def get_password(self):
-#         return self.__password
-#     #setter for password
-#     def set_password(self,password):
-#         pattern = re.compile(r'^[a-zA-Z0-9._%+-]{6,}$')
-#         if not pattern.match(password):
-#             raise ValueError("Invalid username should be include alphabets and special character and contain minimum 6 digit ")
-#         self.__password = password
-#     #getter for staff id
-#     def get_staff_id(self):
-#         return self.__staff_id
-#     #setter for staff id
-#     def set_staff_id(self,staff_id):
-#         self.__staff_id = staff_id
-#     #getter for role id 
-#     def get_role_id(self):
-#         return self.__role_id
-#     #setter for role id
-#     def set_role_id(self,role_id):
-#         self.__role_id = role_id
+class Doctor:
+    def __init__(self,doc_id=None,staff_id=None,spec_id=None,consultation_fee=None,availability=None):
+        self.__doc_id = doc_id
+        self.__staff_id = staff_id
+        self.__spec_id = spec_id
+        self.__consultation_fee = consultation_fee
+        self.__availability = availability
+    #getter for doctor id
+    def get_doc_id(self):
+        return self.__doc_id
+    #setter for doctor id
+    def set_doc_id(self,doc_id):
+        self.__doc_id = doc_id
+    #getter for staff id
+    def get_staff_id(self):
+        return self.__staff_id
+    #setter for staff id
+    def set_staff_id(self,staff_id):
+        self.__staff_id = staff_id
+    #getter for specification
+    def get_spec_id(self):
+        return self.__spec_id
+    #setter for specification
+    def set_spec_id(self,spec_id):
+        self.__spec_id = spec_id
+    #getter for consultation fee 
+    def get_consultation_fee(self):
+        return self.__consultation_fee
+    #setter for consultation fee
+    def set_consultation_fee(self,consultation_fee):
+        self.__consultation_fee = consultation_fee
+    #getter for availability
+    def get_availability(self):
+        return self.__availability
+    #setter for availability
+    def set_availability(self,availability):
+        self.__availability = availability
+#create specification class
+class Specialization:
+    def __init__(self,spec_id=None,specialization = None):
+        self.__spec_id = spec_id
+        self.__specialization = specialization
+    #getter for specificatio id
+    def get_spec_id(self):
+        return self.__spec_id
+    # setter for specification id
+    def set_spec_id(self,spec_id):
+        self.__spec_id = spec_id
+    #getter for specificatio name
+    def get_specification(self):
+        return self.__specialization
+    # setter for specification name
+    def set_specification(self,specialization):
+        self.__specialization = specialization
+
 
 
     

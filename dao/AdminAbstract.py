@@ -19,4 +19,24 @@ class AdminAbstarct(ABC):
     @abstractmethod
     def check_password(self,password):
         pass
+    @abstractmethod
+    def update_staff(self)->bool:
+        pass
+    @abstractmethod
+    def diable_staff(self)->bool:
+        pass
+    @abstractmethod
+    def staff_specialization(self)->bool:
+        pass
+    @abstractmethod
+    def staff_specialization(self)->bool:
+        pass
+    @abstractmethod
+    def search_by_id(self,staff_id):
+        pass
+    @abstractmethod
+    def check_doc_id(self, username):
+        pass
+
+
 
