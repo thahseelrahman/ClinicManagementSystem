@@ -13,14 +13,14 @@ class PharmacistManagementLib:
         if not medicines:
             print("No medicines found.")
             return
-
         print("------ ALL MEDICINES ------")
-        print(f"{'ID':<5} {'Name':<20} {'Generic':<20} {'Manufacturer':<20} {'Price':<10} {'Stock':<6} {'Expiry Date':<12}")
-        print("-" * 100)
-        for med in medicines:
-            print(f"{med.get_med_id():<5} {med.get_med_name():<20} {med.get_generic_name():<20} "
-                  f"{med.get_manufacturer():<20} {med.get_unit_rate():<10} {med.get_stock():<6} {med.get_expiry_date()}")
-        print("-" * 100)
+        print(f"{'S.No':<5} {'ID':<5} {'Name':<20} {'Generic':<20} {'Manufacturer':<20} {'Price':<10} {'Stock':<6} {'Expiry Date':<12}")
+        print("-" * 110)
+        for idx, med in enumerate(medicines, start=1):
+            print(f"{idx:<5} {med.get_med_id():<5} {med.get_med_name():<20} {med.get_generic_name():<20} "
+              f"{med.get_manufacturer():<20} {med.get_unit_rate():<10} {med.get_stock():<6} {med.get_expiry_date()}")
+        print("-" * 110)
+
 
     @staticmethod
     def add_medicine():
