@@ -48,23 +48,56 @@ class PharmacistManagementLib:
         if not medicine:
             print("Medicine not found")
             return
+
+        print("Current Medicine Details:")
         print(medicine)
+        
+        if input("Do you want to edit this medicine? (y/n): ").lower() != 'y':
+            return
 
-        if input("Do you want to edit this medicine? (y/n): ").lower() == 'y':
-            medicine.set_med_name(input("Enter new Medicine Name: "))
-            medicine.set_generic_name(input("Enter new Generic Name: "))
-            medicine.set_manufacturer(input("Enter new Manufacturer: "))
-            medicine.set_unit_rate(float(input("Enter new Unit Price: ")))
-            medicine.set_stock(int(input("Enter new Stock: ")))
-
+   
+        print("\nWhich field do you want to update?")
+        print("1. Medicine Name")
+        print("2. Generic Name")
+        print("3. Manufacturer")
+        print("4. Unit Price")
+        print("5. Stock")
+        print("6. Expiry Date")
+        
+        choice = input("Enter your choice (1-6): ")
+        updated = False
+        if choice == "1":
+            new_name = input("Enter new Medicine Name: ")
+            updated = PharmacistManagementLib.dao_service.update_single_field(search_id, "name", new_name)
+        elif choice == "2":
+            new_generic = input("Enter new Generic Name: ")
+            updated = PharmacistManagementLib.dao_service.update_single_field(search_id, "generic", new_generic)
+            
+        elif choice == "3":
+            new_manufacturer = input("Enter new Manufacturer: ")
+            updated = PharmacistManagementLib.dao_service.update_single_field(search_id, "manufacturer", new_manufacturer)
+            
+        elif choice == "4":
+            new_price = float(input("Enter new Unit Price: "))
+            updated = PharmacistManagementLib.dao_service.update_single_field(search_id, "price", new_price)
+            
+        elif choice == "5":
+            new_stock = int(input("Enter new Stock: "))
+            updated = PharmacistManagementLib.dao_service.update_single_field(search_id, "stock", new_stock)
+            
+        elif choice == "6":
             exp_date = input("Enter new Expiry Date (dd/MM/yyyy): ")
             util_date = datetime.strptime(exp_date, "%d/%m/%Y")
-            medicine.set_expiry_date(util_date.date())
+            updated = PharmacistManagementLib.dao_service.update_single_field(search_id, "expiry", util_date.date())
+            
+        else:
+            print("Invalid choice!")
+            
+        if updated:
+            print("Medicine updated successfully...")
+        else:
+            print("Something went wrong while updating medicine.")
 
-            if PharmacistManagementLib.dao_service.update_medicine(medicine, search_id):
-                print("Medicine updated successfully...")
-            else:
-                print("Something went wrong while updating medicine.")
 
     @staticmethod
     def delete_medicine():
