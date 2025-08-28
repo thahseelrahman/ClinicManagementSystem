@@ -49,6 +49,38 @@ class PharmacistDaoImplementation(PharmacistDaoService):
         finally:
             cursor.close()
 
+    def update_medicine(self, medicine: Pharmacist, med_id: int) -> bool:
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute(self.UPDATE_MEDICINE, (
+                medicine.get_med_name(),
+                medicine.get_generic_name(),
+                medicine.get_manufacturer(),
+                medicine.get_unit_rate(),
+                medicine.get_stock(),
+                medicine.get_expiry_date(),
+                med_id
+            ))
+            self.conn.commit()
+            return cursor.rowcount == 1
+        except Exception as e:
+            print("Error updating medicine:", e)
+            return False
+        finally:
+            cursor.close()
+
+    def delete_medicine(self, med_id: int) -> bool:
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute(self.DELETE_MEDICINE, (med_id,))
+            self.conn.commit()
+            return cursor.rowcount == 1
+        except Exception as e:
+            print("Error deleting medicine:", e)
+            return False
+        finally:
+            cursor.close()
+
     def display_all_medicines(self) -> List[Pharmacist]:
         medicines = []
         try:

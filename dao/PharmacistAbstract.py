@@ -17,5 +17,4 @@ class PharmacistDaoService(ABC):
     @abstractmethod
     def delete_medicine(self, med_id: int) -> bool:
         pass
-
    
