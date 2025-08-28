@@ -1,6 +1,7 @@
 import configparser
 import mysql.connector
 from mysql.connector import Error
+
 class DBConnection:
     'establish a singleton connection with db'
     '''this class will create only one instance'''
@@ -9,11 +10,12 @@ class DBConnection:
     def __new__(cls):
         '''override to implement singleton 
         Ensures only one instance of DBConnection is ever created'''
-        if cls.__instance is None:#if no instance created
+        if cls.__instance is None:  # if no instance created
             cls.__instance = super(DBConnection, cls).__new__(cls)
-            cls.__instance.__initialize()#initialize the connection 
+            cls.__instance._initialize()  # initialize the connection 
         return cls.__instance
-    def __initialize(self):
+
+    def _initialize(self):
         '''
         initialize the database connection using properties from the db_config.ini
         '''
@@ -36,4 +38,3 @@ class DBConnection:
 
     def get_connection(self):
         return self.connection
-
