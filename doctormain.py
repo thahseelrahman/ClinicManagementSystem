@@ -12,13 +12,30 @@ def doctormain():
         choice = input("Enter your choice: ")
 
         if choice == '1':
-            DoctorManagement.display_appointments()
+            while True:
+                DoctorManagement.display_appointments()
+                again = input("Do you want to display appointments again? (y/n): ").strip().lower()
+                if again != 'y':
+                    break
         elif choice == '2':
-            DoctorManagement.find_appointment_by_id()
+            while True:
+                DoctorManagement.find_appointment_by_id()
+                again = input("Do you want to find another appointment? (y/n): ").strip().lower()
+                if again != 'y':
+                    break
         elif choice == '3':
-            DoctorManagement.update_appointment_notes()
+            while True:
+                DoctorManagement.update_appointment_notes()
+                again = input("Do you want to update another appointment? (y/n): ").strip().lower()
+                if again != 'y':
+                    break
         elif choice == '4':
-            DoctorManagement.create_prescription()  
+            while True:
+                DoctorManagement.create_prescription()
+                again = input("Do you want to create another prescription? (y/n): ").strip().lower()
+                if again != 'y':
+                    break
+        elif choice == '5':
             print("Exiting Doctor Management... ✅")
             break
         else:
