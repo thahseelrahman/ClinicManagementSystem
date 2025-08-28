@@ -9,3 +9,12 @@ class PharmacistDaoService(ABC):
     @abstractmethod
     def add_medicine(self, medicine: Pharmacist) -> bool:
         pass
+
+    @abstractmethod
+    def update_medicine(self, medicine: Pharmacist, med_id: int) -> bool:
+        pass
+
+    @abstractmethod
+    def delete_medicine(self, med_id: int) -> bool:
+        pass
+   
