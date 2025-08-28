@@ -166,8 +166,20 @@ class ReceptionistImple(ReceptionistAbstract):
     #     cursor.close()
 
     def get_appointment(self, appointment_id):
-        cursor = self.conn.cursor()
+        cursor = self.conn.cursor(dictionary=True)
         cursor.execute(self.GET_APPOINTMENT, (appointment_id,))
-        appointment = cursor.fetchone()
+        row = cursor.fetchone()
         cursor.close()
-        return appointment
+        if not row:
+            return None
+        return Appointment(
+            app_id=row.get('app_id'),
+            token_no=row.get('token_no'),
+            patient_id=row.get('patient_id'),
+            doctor_id=row.get('doc_id'),
+            appointment_date=row.get('app_date'),
+            appointment_time=row.get('app_time'),
+            status=row.get('status'),
+            symptoms=row.get('symptoms'),
+            diagnosis=row.get('diagnosis')
+        )
