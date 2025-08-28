@@ -4,7 +4,7 @@ from typing import List
 from models.admin import Staff,Credential,Doctor,Specialization
 
 class Admindaosurvice(AdminAbstarct):
-    DISPLAY_ALL = "SELECT * FROM staff"
+    DISPLAY_ALL = "SELECT * FROM staff WHERE is_active = 'Y'"
     INSERT_STAFF = "INSERT INTO staff(dept_id,first_name,last_name,role_id,age,gender,phone_no,email,address,date_of_join,is_active) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     INSERT_CREDENTIAL = "INSERT INTO credentials(user_name,password,staff_id,role_id) VALUES (%s,%s,%s,%s)"
     DISPLAY_STAFF = "SELECT * FROM clinic_db.staff where staff_id = (SELECT max(staff_id) FROM clinic_db.staff)"

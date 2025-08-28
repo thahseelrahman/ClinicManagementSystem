@@ -51,12 +51,14 @@ class Staff:
     #setter for staff id
     def set_staff_id(self,staff_id):
         self.__staff_id = staff_id
+        return True
     #getter for department id     
     def get_dept_id(self):
         return self.__dept_id
     #setter for department id
     def set_dept_id(self,dept_id):
         self.__dept_id = dept_id
+        return True
     #getter for first name
     def get_first_name(self):
         return self.__first_name
@@ -65,6 +67,7 @@ class Staff:
         pattern = re.compile("^[A-Za-z]+$")
         if pattern.match(first_name):
             self.__first_name = first_name
+            return True
         else:
             raise ValueError("Invalid first name")
     #getter for last name
@@ -75,6 +78,7 @@ class Staff:
         pattern = re.compile("^[A-Za-z]+$")
         if pattern.match(last_name):
             self.__last_name = last_name
+            return True
         else:
             raise ValueError("Invalid last name")
     #getter for role
@@ -83,6 +87,7 @@ class Staff:
     #setter for role
     def set_role_id(self,role_id:int):
         self.__role_id = role_id
+        return True
     #getter for age
     def get_age(self):
         return self.__age
@@ -90,6 +95,7 @@ class Staff:
     def set_age(self,age:int):
         if age > 17:
             self.__age = age
+            return True
         else:
             raise ValueError("Invalid age")
     #getter for gender
@@ -100,6 +106,7 @@ class Staff:
         genders = ["M","F","O"]
         if gender in genders:
             self.__gender = gender
+            return True
         else:
             raise ValueError("Invalid gender")
     #getter for phone number
@@ -111,6 +118,7 @@ class Staff:
         if not pattern.match(phone_no):
             raise ValueError("Invalid phone number")
         self.__phone_no = phone_no
+        return True
     #getter for email
     def get_email(self):
         return self.__email
@@ -120,6 +128,7 @@ class Staff:
         if not pattern.match(email):
             raise ValueError("Invalid email format")
         self.__email = email
+        return True
     #getter for address
     def get_address(self):
         return self.__address
@@ -130,6 +139,7 @@ class Staff:
         if not isinstance(address, str):
             raise ValueError("Invalid address format")
         self.__address = address
+        return True
     #getter for date of joining
     def get_date_of_join(self):
         return self.__date_of_join
@@ -137,7 +147,10 @@ class Staff:
     def set_date_of_join(self,date_of_join):
         if not isinstance(date_of_join,date):
             raise ValueError("Invalid date format")
+        if date_of_join > date.today():
+            raise ValueError("Joining date cannot be in the future")
         self.__date_of_join = date_of_join
+        return True
     #getter for is_active
     def get_is_active(self):
         return self.__is_active
@@ -185,6 +198,7 @@ class Credential:
         if not pattern.match(username):
             raise ValueError("Invalid username should be include alphabets and digits and contain minimum 6 digit ")
         self.__username = username
+        return True
     #getter for password
     def get_password(self):
         return self.__password
@@ -194,6 +208,7 @@ class Credential:
         if not pattern.match(password):
             raise ValueError("Invalid username should be include alphabets and special character and contain minimum 6 digit ")
         self.__password = password
+        return True
     #getter for staff id
     def get_staff_id(self):
         return self.__staff_id

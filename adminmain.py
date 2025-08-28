@@ -29,7 +29,7 @@ def adminmain():
             try:
                 AdminManagementLib.search_staff()
             except Exception as e:
-                print("Error happened in searching staff",e)
+                print("staff not found!!!")
         elif choice == 5:
             try:
                 AdminManagementLib.disable_staff()
