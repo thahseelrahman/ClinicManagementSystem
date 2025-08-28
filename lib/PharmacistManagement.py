@@ -68,27 +68,27 @@ class PharmacistManagementLib:
         updated = False
         if choice == "1":
             new_name = input("Enter new Medicine Name: ")
-            updated = PharmacistManagementLib.dao_service.update_single_field(search_id, "name", new_name)
+            updated = PharmacistManagementLib.dao_service.update_medicine(search_id, "name", new_name)
         elif choice == "2":
             new_generic = input("Enter new Generic Name: ")
-            updated = PharmacistManagementLib.dao_service.update_single_field(search_id, "generic", new_generic)
+            updated = PharmacistManagementLib.dao_service.update_medicine(search_id, "generic", new_generic)
             
         elif choice == "3":
             new_manufacturer = input("Enter new Manufacturer: ")
-            updated = PharmacistManagementLib.dao_service.update_single_field(search_id, "manufacturer", new_manufacturer)
+            updated = PharmacistManagementLib.dao_service.update_medicine(search_id, "manufacturer", new_manufacturer)
             
         elif choice == "4":
             new_price = float(input("Enter new Unit Price: "))
-            updated = PharmacistManagementLib.dao_service.update_single_field(search_id, "price", new_price)
+            updated = PharmacistManagementLib.dao_service.update_medicine(search_id, "price", new_price)
             
         elif choice == "5":
             new_stock = int(input("Enter new Stock: "))
-            updated = PharmacistManagementLib.dao_service.update_single_field(search_id, "stock", new_stock)
+            updated = PharmacistManagementLib.dao_service.update_medicine(search_id, "stock", new_stock)
             
         elif choice == "6":
             exp_date = input("Enter new Expiry Date (dd/MM/yyyy): ")
             util_date = datetime.strptime(exp_date, "%d/%m/%Y")
-            updated = PharmacistManagementLib.dao_service.update_single_field(search_id, "expiry", util_date.date())
+            updated = PharmacistManagementLib.dao_service.update_medicine(search_id, "expiry", util_date.date())
             
         else:
             print("Invalid choice!")

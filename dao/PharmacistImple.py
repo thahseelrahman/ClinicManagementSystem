@@ -10,9 +10,8 @@ class PharmacistDaoImplementation(PharmacistDaoService):
     INSERT_MEDICINE = """INSERT INTO Medicine(med_name, generic_name, manufacturer, unit_rate, stock, expiry_date) 
                          VALUES (%s, %s, %s, %s, %s, %s)"""
     FIND_MEDICINE_BY_ID = "SELECT * FROM Medicine WHERE med_id=%s"
-    UPDATE_MEDICINE = """UPDATE Medicine 
-                         SET med_name=%s, generic_name=%s, manufacturer=%s, unit_rate=%s, stock=%s, expiry_date=%s 
-                         WHERE med_id=%s"""
+    UPDATE_MEDICINE = "UPDATE Medicine SET %s = %s WHERE med_id = %s"
+
     DELETE_MEDICINE = "DELETE FROM Medicine WHERE med_id=%s"
     UPDATE_STOCK = "UPDATE Medicine SET stock=%s WHERE med_id=%s"
 
@@ -71,25 +70,34 @@ class PharmacistDaoImplementation(PharmacistDaoService):
             cursor.close()
         return medicine
 
-    def update_medicine(self, medicine: Pharmacist, med_id: int) -> bool:
+    def update_medicine(self, med_id: int, field: str, value) -> bool:
         try:
             cursor = self.conn.cursor()
-            cursor.execute(self.UPDATE_MEDICINE, (
-                medicine.get_med_name(),
-                medicine.get_generic_name(),
-                medicine.get_manufacturer(),
-                medicine.get_unit_rate(),
-                medicine.get_stock(),
-                medicine.get_expiry_date(),
-                med_id
-            ))
+            valid_fields = {
+                "name": "med_name",
+                "generic": "generic_name",
+                "manufacturer": "manufacturer",
+                "price": "unit_rate",
+                "stock": "stock",
+                "expiry": "expiry_date"
+                }
+            if field not in valid_fields:
+                print("Invalid field name!")
+                return False
+            cursor.execute(self.UPDATE_MEDICINE, (field,value, med_id))
             self.conn.commit()
-            return cursor.rowcount == 1
+            
+            if cursor.rowcount == 0:
+                print(f"No medicine found with ID {med_id}")
+                return False
+            return True
         except Exception as e:
             print("Error updating medicine:", e)
             return False
         finally:
-            cursor.close()
+            if cursor:
+                cursor.close()
+
 
     def delete_medicine(self, med_id: int) -> bool:
         try:
