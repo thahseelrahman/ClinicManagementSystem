@@ -1,31 +1,34 @@
-
-
-from lib.DoctorManagement import DoctorManagement
-
-def doctor_menu():
+from dao.AdminAbstract import AdminAbstarct
+from dao.AdminImple import Admindaosurvice
+from adminmain import adminmain
+from mainpharm import pharmamain
+from receptionistmain import receptionmain
+from doctormain import doctormain
+def main():
+    dao_service: AdminAbstarct =Admindaosurvice()
     while True:
-        print("\n=== Doctor Management Menu ===")
-        print("1. Display all Appointments for a Doctor")
-        print("2. Find Appointment by ID")
-        print("3. Update Appointment Notes")
-        print("4. Create Prescription")
-        print("5. Exit")
-
-        choice = input("Enter your choice: ")
-
-        if choice == '1':
-            DoctorManagement.display_appointments()
-        elif choice == '2':
-            DoctorManagement.find_appointment_by_id()
-        elif choice == '3':
-            DoctorManagement.update_appointment_notes()
-        elif choice == '4':
-            DoctorManagement.create_prescription()  
-            print("Exiting Doctor Management... ✅")
-            break
-        else:
-            print("❌ Invalid choice, try again.")
-
+        print("\n------------------login-----------------------------")
+        username = input("Enter the username: ") 
+        password = input("Enter the password: ")  
+        try:
+            if dao_service.check_username(username)['role_name'] == dao_service.check_password(password)['role_name']:
+                match dao_service.check_username(username)['role_name']:
+                    case "admin":
+                        adminmain()
+                    case "receptionist":
+                        receptionmain()
+                    case "doctor":
+                        # dao_service.check_doc_id(username)['doc_id']
+                        doctormain()
+                    case "pharmasist":
+                        pharmamain()
+                    case "labtechnicion":
+                        # labtechmenudrive()
+                        pass
+                    case _:
+                        print("something occured when searching username")
+        except Exception as e:
+            print("Worng username or password!!!")
 
 if __name__ == "__main__":
-    doctor_menu()
+    main()

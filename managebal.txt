@@ -1,0 +1,107 @@
+
+
+    @staticmethod
+    def update_bill():
+        bill_id = int(input("Enter Bill ID to update: "))
+        bill = BillingManagementLib.dao_service.search_bill(bill_id)
+        if not bill:
+            print("Bill not found.")
+            return
+
+        print("Current Bill:")
+        for item in bill.get_items():
+            print(f"{item['med_name']} | Qty: {item['quantity']} | Unit Price: {item['unit_price']} | Amount: {item['amount']}")
+
+        # allow user to change or add new items
+        bill_items = bill.get_items()
+        total_amount = bill.get_total_amount()
+
+        while True:
+            choice = input("Do you want to (a)dd, (u)pdate qty, (r)emove item, or (f)inish? ").lower()
+            if choice == 'f':
+                break
+            elif choice == 'a':
+                med_id = int(input("Enter new Medicine ID: "))
+                medicine: Pharmacist = BillingManagementLib.dao_service.search_medicines(med_id)
+                if not medicine:
+                    print("Medicine not found.")
+                    continue
+                qty = int(input("Enter quantity: "))
+                if qty > medicine.get_stock():
+                    print("Not enough stock.")
+                    continue
+                BillingManagementLib.dao_service.update_stock(med_id, medicine.get_stock() - qty)
+                amount = qty * medicine.get_unit_rate()
+                total_amount += amount
+                bill_items.append({
+                    "med_id": med_id,
+                    "med_name": medicine.get_med_name(),
+                    "quantity": qty,
+                    "unit_price": medicine.get_unit_rate(),
+                    "amount": amount
+                })
+            elif choice == 'u':
+                med_id = int(input("Enter Medicine ID to update quantity: "))
+                for item in bill_items:
+                    if item["med_id"] == med_id:
+                        new_qty = int(input("Enter new quantity: "))
+                        medicine = BillingManagementLib.dao_service.search_medicines(med_id)
+                        if not medicine:
+                            print("Medicine not found.")
+                            continue
+                        if new_qty > medicine.get_stock():
+                            print("Not enough stock.")
+                            continue
+                        # adjust stock and amount
+                        BillingManagementLib.dao_service.update_stock(med_id, medicine.get_stock() - new_qty)
+                        total_amount -= item["amount"]
+                        item["quantity"] = new_qty
+                        item["amount"] = new_qty * item["unit_price"]
+                        total_amount += item["amount"]
+                        break
+            elif choice == 'r':
+                med_id = int(input("Enter Medicine ID to remove: "))
+                for item in bill_items:
+                    if item["med_id"] == med_id:
+                        total_amount -= item["amount"]
+                        bill_items.remove(item)
+                        break
+
+        bill.set_items(bill_items)
+        bill.set_total_amount(total_amount)
+
+        if BillingManagementLib.dao_service.update_bill(bill, bill_id):
+            print("Bill updated successfully.")
+        else:
+            print("Failed to update bill.")
+
+    @staticmethod
+    def delete_bill():
+        bill_id = int(input("Enter Bill ID to delete: "))
+        bill = BillingManagementLib.dao_service.search_bill(bill_id)
+        if not bill:
+            print("Bill not found.")
+            return
+
+        confirm = input("Are you sure you want to delete this bill? (y/n): ").lower()
+        if confirm == 'y':
+            if BillingManagementLib.dao_service.delete_bill(bill_id):
+                print("Bill deleted successfully.")
+            else:
+                print("Something went wrong while deleting bill.")
+
+    @staticmethod
+    def pay_bill():
+        bill_id = int(input("Enter Bill ID to pay: "))
+        bill = BillingManagementLib.dao_service.search_bill(bill_id)
+        if not bill:
+            print("Bill not found.")
+            return
+
+        print(f"Bill Total: {bill.get_total_amount()}")
+        confirm = input("Confirm payment? (y/n): ").lower()
+        if confirm == 'y':
+            if BillingManagementLib.dao_service.pay_bill(bill_id):
+                print("Bill marked as paid.")
+            else:
+                print("Failed to mark bill as paid.")
