@@ -4,6 +4,34 @@ from db.db_connection import DBConnection
 from models.receptionist import Patient, Appointment
 
 class ReceptionistImple(ReceptionistAbstract):
+    # Bill and doctor queries
+    GET_CONSULTATION_FEE = "SELECT consultation_fee FROM doctor WHERE doc_id = %s"
+    INSERT_BILL = "INSERT INTO bill (bill_type, patient_id, ref_id, total_amount, status, bill_date) VALUES (%s, %s, %s, %s, %s, %s)"
+
+    def get_consultation_fee(self, doc_id):
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute(self.GET_CONSULTATION_FEE, (doc_id,))
+            result = cursor.fetchone()
+            return result[0] if result else None
+        except Exception as e:
+            print(f"Error fetching consultation fee: {e}")
+            return None
+        finally:
+            cursor.close()
+
+    def insert_bill(self, bill_type, patient_id, ref_id, total_amount, status, bill_date):
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute(self.INSERT_BILL, (bill_type, patient_id, ref_id, total_amount, status, bill_date))
+            self.conn.commit()
+            return cursor.rowcount == 1
+        except Exception as e:
+            print(f"Error inserting bill: {e}")
+            return None
+        finally:
+            cursor.close()
+#-----------------Bill on top-----------------------------
     'Implementation of ReceptionistAbstract methods'
     #queries
     DISPLAY_PATIENTS = "SELECT * FROM patient"
@@ -32,17 +60,17 @@ class ReceptionistImple(ReceptionistAbstract):
         finally:
             cursor.close()
 
-    # def update_patient(self, patient:Patient,patient_id:int)->bool:
-    #     try:
-    #         cursor = self.conn.cursor(dictionary=True)
-    #         cursor.execute(self.UPDATE_PATIENT, (patient.get_first_name(), patient.get_last_name(), patient.get_dob(), patient.get_blood_group(), patient.get_gender(), patient.get_phone_no(), patient.get_address(), patient.get_email(), patient.get_reg_date(), patient_id))
-    #         self.conn.commit()
-    #         return cursor.rowcount == 1
-    #     except Exception as e:
-    #         print(f"Error updating patient: {e}")
-    #         return None
-    #     finally:
-    #         cursor.close()
+    def update_patient(self, patient:Patient,patient_id:int)->bool:
+        try:
+            cursor = self.conn.cursor(dictionary=True)
+            cursor.execute(self.UPDATE_PATIENT, (patient.get_first_name(), patient.get_last_name(), patient.get_dob(), patient.get_blood_group(), patient.get_gender(), patient.get_phone_no(), patient.get_address(), patient.get_email(), patient.get_reg_date(), patient_id))
+            self.conn.commit()
+            return cursor.rowcount == 1
+        except Exception as e:
+            print(f"Error updating patient: {e}")
+            return None
+        finally:
+            cursor.close()
 
     # def delete_patient(self, patient_id):
     #     cursor = self.conn.cursor()
@@ -50,12 +78,12 @@ class ReceptionistImple(ReceptionistAbstract):
     #     self.conn.commit()
     #     cursor.close()
 
-    # def get_patient(self, patient_id):
-    #     cursor = self.conn.cursor()
-    #     cursor.execute(self.GET_PATIENT, (patient_id,))
-    #     patient = cursor.fetchone()
-    #     cursor.close()
-    #     return patient
+    def get_patient(self, patient_id):
+        cursor = self.conn.cursor()
+        cursor.execute(self.GET_PATIENT, (patient_id,))
+        patient = cursor.fetchone()
+        cursor.close()
+        return patient
 
     def get_all_patients(self)->list[Patient]:
         try:
@@ -65,6 +93,7 @@ class ReceptionistImple(ReceptionistAbstract):
             rows = cursor.fetchall()
             for row in rows:
                 patients.append(Patient(
+                    patient_id=row['patient_id'],
                     first_name=row['first_name'],
                     last_name=row['last_name'],
                     dob=row['dob'],
@@ -75,6 +104,7 @@ class ReceptionistImple(ReceptionistAbstract):
                     email=row['email'],
                     reg_date=row['reg_date']
                 ))
+            return patients    
         except Exception as e:
             print(f"Error fetching all patients: {e}")
         finally:
@@ -117,11 +147,17 @@ class ReceptionistImple(ReceptionistAbstract):
         finally:
             cursor.close()
 
-    # def update_appointment(self, appointment):
-    #     cursor = self.conn.cursor()
-    #     cursor.execute(self.UPDATE_APPOINTMENT, (appointment.get_token_no(), appointment.get_patient_id(), appointment.get_doctor_id(), appointment.get_appointment_date(), appointment.get_appointment_time(), appointment.get_status(), appointment.get_symptoms(), appointment.get_diagnosis(), appointment.get_app_id()))
-    #     self.conn.commit()
-    #     cursor.close()
+    def update_appointment(self, appointment):
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute(self.UPDATE_APPOINTMENT, (appointment.get_token_no(), appointment.get_patient_id(), appointment.get_doctor_id(), appointment.get_appointment_date(), appointment.get_appointment_time(), appointment.get_status(), appointment.get_symptoms(), appointment.get_diagnosis(), appointment.get_appointment_id()))
+            self.conn.commit()
+            return cursor.rowcount == 1
+        except Exception as e:
+            print(f"Error updating appointment: {e}")
+            return None
+        finally:
+            cursor.close()
 
     # def cancel_appointment(self, appointment_id):
     #     cursor = self.conn.cursor()
@@ -129,9 +165,9 @@ class ReceptionistImple(ReceptionistAbstract):
     #     self.conn.commit()
     #     cursor.close()
 
-    # def get_appointment(self, appointment_id):
-    #     cursor = self.conn.cursor()
-    #     cursor.execute(self.GET_APPOINTMENT, (appointment_id,))
-    #     appointment = cursor.fetchone()
-    #     cursor.close()
-    #     return appointment
+    def get_appointment(self, appointment_id):
+        cursor = self.conn.cursor()
+        cursor.execute(self.GET_APPOINTMENT, (appointment_id,))
+        appointment = cursor.fetchone()
+        cursor.close()
+        return appointment

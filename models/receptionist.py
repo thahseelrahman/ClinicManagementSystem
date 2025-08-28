@@ -1,5 +1,5 @@
 import re
-from datetime import date,time
+from datetime import date,time,datetime
 #Patient class for getting and setting patient informations
 class Patient:
     'Python OOPs applied'
@@ -117,7 +117,10 @@ class Patient:
         return self.__reg_date
 
     def set_reg_date(self, reg_date):
+        #date cant be in the past
         if isinstance(reg_date,date):
+            if reg_date < date.today():
+                raise ValueError("Invalid registration date. Registration date cannot be in the past.")
             self.__reg_date = reg_date
         else:
             raise ValueError("Invalid registration date. Please provide a valid date.")
@@ -180,6 +183,9 @@ class Appointment:
         return self.__appointment_date
 
     def set_appointment_date(self, appointment_date):
+        #date cant be in the past
+        if appointment_date < date.today():
+            raise ValueError("Invalid appointment date. Appointment date cannot be in the past.")
         if isinstance(appointment_date, date):
             self.__appointment_date = appointment_date
         else:
@@ -190,6 +196,9 @@ class Appointment:
         return self.__appointment_time
 
     def set_appointment_time(self, appointment_time):
+        #time should not be in the past
+        if appointment_time < datetime.now().time():
+            raise ValueError("Invalid appointment time. Please provide a valid time.")
         if isinstance(appointment_time, time):
             self.__appointment_time = appointment_time
         else:
@@ -221,3 +230,70 @@ class Appointment:
 
     def __str__(self):
         return f"====APPOINTMENTS====\n-----------------------\nAppointment Id: {self.__app_id}\nToken No: {self.__token_no}\nPatient Id: {self.__patient_id}\nDoctor Id: {self.__doctor_id}\nAppointment Date: {self.__appointment_date}\nAppointment Time: {self.__appointment_time}\nStatus: {self.__status}\nSymptoms: {self.__symptoms}\nDiagnosis: {self.__diagnosis}\n-----------------------"
+
+# Bill class for bill table
+class Bill:
+    def __init__(self, bill_id=None, bill_type=None, patient_id=None, ref_id=None, total_amount=None, status=None, bill_date=None):
+        self.__bill_id = bill_id
+        self.__bill_type = bill_type
+        self.__patient_id = patient_id
+        self.__ref_id = ref_id
+        self.__total_amount = total_amount
+        self.__status = status
+        self.__bill_date = bill_date
+
+    def get_bill_id(self):
+        return self.__bill_id
+
+    def set_bill_id(self, bill_id):
+        self.__bill_id = bill_id
+
+    def get_bill_type(self):
+        return self.__bill_type
+
+    def set_bill_type(self, bill_type):
+        self.__bill_type = bill_type
+
+    def get_patient_id(self):
+        return self.__patient_id
+
+    def set_patient_id(self, patient_id):
+        self.__patient_id = patient_id
+
+    def get_ref_id(self):
+        return self.__ref_id
+
+    def set_ref_id(self, ref_id):
+        #it should be an integer
+        if not isinstance(ref_id, int):
+            raise ValueError("Invalid Ref Id. Ref Id must be an integer.")
+        self.__ref_id = ref_id
+
+    def get_total_amount(self):
+        return self.__total_amount
+
+    def set_total_amount(self, total_amount):
+        if not isinstance(total_amount, (int, float)):
+            raise ValueError("Invalid Total Amount. Total Amount must be a number.")
+        self.__total_amount = total_amount
+
+    def get_status(self):
+        return self.__status
+
+    def set_status(self, status):
+        if status not in ["Paid", "Unpaid", "Cancelled"]:
+            raise ValueError("Invalid Status. Status must be one of ['Paid', 'Unpaid', 'Cancelled'].")
+        self.__status = status
+
+    def get_bill_date(self):
+        return self.__bill_date
+
+    def set_bill_date(self, bill_date):
+        #current date
+        if bill_date is None:
+            self.__bill_date = datetime.now().date()
+        else:
+            self.__bill_date = bill_date
+
+    def __str__(self):
+        return f"=====BILL DETAILS=====\nBill Id: {self.__bill_id}\nType: {self.__bill_type}\nPatient Id: {self.__patient_id}\nRef Id: {self.__ref_id}\nTotal Amount: {self.__total_amount}\nStatus: {self.__status}\nBill Date: {self.__bill_date}\n======================="
