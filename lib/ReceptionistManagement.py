@@ -63,6 +63,8 @@ class ReceptionmanagementLib:
             return
         print(patient)
         confirm = input("Do you want to update this patient? (y/n): ")
+        #use try and exception
+        
         if confirm.lower() == 'y':
             first_name = input("Enter new First Name: ")
             patient.set_first_name(first_name)

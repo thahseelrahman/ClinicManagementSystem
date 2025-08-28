@@ -197,8 +197,6 @@ class Appointment:
 
     def set_appointment_time(self, appointment_time):
         #time should not be in the past
-        if appointment_time < datetime.now().time():
-            raise ValueError("Invalid appointment time. Please provide a valid time.")
         if isinstance(appointment_time, time):
             self.__appointment_time = appointment_time
         else:
