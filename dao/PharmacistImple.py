@@ -48,7 +48,29 @@ class PharmacistDaoImplementation(PharmacistDaoService):
             return False
         finally:
             cursor.close()
-
+    def search_medicines(self, med_id: int):
+        medicine = None
+        try:
+            cursor = self.conn.cursor(dictionary=True)
+            cursor.execute(self.FIND_MEDICINE_BY_ID, (med_id,))
+            row = cursor.fetchone()
+            if row:
+                medicine = Pharmacist(
+                    med_id=row["med_id"],
+                    med_name=row["med_name"],
+                    generic_name=row["generic_name"],
+                    manufacturer=row["manufacturer"],
+                    unit_rate=row["unit_rate"],
+                    stock=row["stock"],
+                    expiry_date=row["expiry_date"]
+                )
+        except Exception as e:
+            print("Error fetching medicine:", e)
+        finally:
+            cursor.close()
+        return medicine
+    
+    
     def update_medicine(self, medicine: Pharmacist, med_id: int) -> bool:
         try:
             cursor = self.conn.cursor()
