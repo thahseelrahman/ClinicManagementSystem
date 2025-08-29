@@ -1,6 +1,6 @@
 from dao.PharmacistAbstract import PharmacistDaoService
 from db.db_connection import DBConnection
-from models.pharmacist import Pharmacist
+from models.pharmacist import Pharmacist, Bill
 from typing import List
 
 class PharmacistDaoImplementation(PharmacistDaoService):
@@ -10,22 +10,23 @@ class PharmacistDaoImplementation(PharmacistDaoService):
     INSERT_MEDICINE = """INSERT INTO Medicine(med_name, generic_name, manufacturer, unit_rate, stock, expiry_date) 
                          VALUES (%s, %s, %s, %s, %s, %s)"""
     FIND_MEDICINE_BY_ID = "SELECT * FROM Medicine WHERE med_id=%s"
-    UPDATE_MEDICINE = """UPDATE Medicine 
-                         SET med_name=%s, generic_name=%s, manufacturer=%s, unit_rate=%s, stock=%s, expiry_date=%s 
-                         WHERE med_id=%s"""
+    UPDATE_MEDICINE = """UPDATE Medicine SET med_name = %s,generic_name = %s,manufacturer = %s,unit_rate = %s,
+    stock = %s,expiry_date = %s WHERE med_id = %s"""
+
+
     DELETE_MEDICINE = "DELETE FROM Medicine WHERE med_id=%s"
     UPDATE_STOCK = "UPDATE Medicine SET stock=%s WHERE med_id=%s"
 
 
-    INSERT_BILL = """INSERT INTO bills (bill_type, patient_id, ref_id, total_amount, status, bill_date) 
+    INSERT_BILL = """INSERT INTO bill (bill_type, patient_id, ref_id, total_amount, status, bill_date) 
                      VALUES (%s, %s, %s, %s, %s, %s)"""
     FIND_BILL_BY_ID = "SELECT * FROM bills WHERE bill_id=%s"
-    UPDATE_BILL = """UPDATE bills 
+    UPDATE_BILL = """UPDATE bill 
                      SET bill_type=%s, patient_id=%s, ref_id=%s, total_amount=%s, status=%s, bill_date=%s 
                      WHERE bill_id=%s"""
-    DELETE_BILL = "DELETE FROM bills WHERE bill_id=%s"
-    LIST_BILLS = "SELECT * FROM bills"
-    PAY_BILL = "UPDATE bills SET status='PAID' WHERE bill_id=%s"
+    DELETE_BILL = "DELETE FROM bill WHERE bill_id=%s"
+    LIST_BILLS = "SELECT * FROM bill"
+    PAY_BILL = "UPDATE bill SET status='PAID' WHERE bill_id=%s"
 
     def __init__(self):
         self.conn = DBConnection().get_connection()
@@ -69,12 +70,11 @@ class PharmacistDaoImplementation(PharmacistDaoService):
         finally:
             cursor.close()
         return medicine
-    
-    
-    def update_medicine(self, medicine: Pharmacist, med_id: int) -> bool:
+
+    def update_medicine(self, med_id: int, medicine: Pharmacist) -> bool:
         try:
             cursor = self.conn.cursor()
-            cursor.execute(self.UPDATE_MEDICINE, (
+            cursor.execute(self.UPDATE_MEDICINE,(
                 medicine.get_med_name(),
                 medicine.get_generic_name(),
                 medicine.get_manufacturer(),
@@ -82,7 +82,8 @@ class PharmacistDaoImplementation(PharmacistDaoService):
                 medicine.get_stock(),
                 medicine.get_expiry_date(),
                 med_id
-            ))
+            )
+        )
             self.conn.commit()
             return cursor.rowcount == 1
         except Exception as e:
@@ -90,6 +91,7 @@ class PharmacistDaoImplementation(PharmacistDaoService):
             return False
         finally:
             cursor.close()
+
 
     def delete_medicine(self, med_id: int) -> bool:
         try:
