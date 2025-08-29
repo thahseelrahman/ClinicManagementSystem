@@ -79,11 +79,24 @@ class ReceptionistImple(ReceptionistAbstract):
     #     cursor.close()
 
     def get_patient(self, patient_id):
-        cursor = self.conn.cursor()
+        cursor = self.conn.cursor(dictionary=True)
         cursor.execute(self.GET_PATIENT, (patient_id,))
-        patient = cursor.fetchone()
+        row = cursor.fetchone()
         cursor.close()
-        return patient
+        if not row:
+            return None
+        return Patient(
+            patient_id=row.get('patient_id'),
+            first_name=row.get('first_name'),
+            last_name=row.get('last_name'),
+            dob=row.get('dob'),
+            blood_group=row.get('blood_group'),
+            gender=row.get('gender'),
+            phone_no=row.get('phone_no'),
+            address=row.get('address'),
+            email=row.get('email'),
+            reg_date=row.get('reg_date')
+        )
 
     def get_all_patients(self)->list[Patient]:
         try:
