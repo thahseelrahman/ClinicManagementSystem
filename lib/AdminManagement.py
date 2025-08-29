@@ -25,7 +25,7 @@ class AdminManagementLib:
         while True:
             try:
                 first_name = input("Enter First Name of Staff: ")
-                if staff.set_first_name(first_name):
+                if staff.set_first_name(first_name.strip()):
                     break
             except ValueError:
                 print("Invalid input. Please enter a valid First Name.")
@@ -33,7 +33,7 @@ class AdminManagementLib:
         while True:
             try:
                 last_name = input("Enter Last Name of Staff: ")
-                if staff.set_last_name(last_name):
+                if staff.set_last_name(last_name.strip()):
                     break
             except ValueError:
                 print("Invalid input. Please enter a valid Last Name.")
@@ -57,7 +57,7 @@ class AdminManagementLib:
         while True:
             try:
                 gender = input("Enter the gender(M/F/O): ")
-                if staff.set_gender(gender):
+                if staff.set_gender(gender.strip()):
                     break
             except Exception as e:
                 print("Invalid input. Please enter a valid gender.")
@@ -65,7 +65,7 @@ class AdminManagementLib:
         while True:
             try:
                 phone_no = input("Enter your phone no: ")
-                if staff.set_phone_no(phone_no):
+                if staff.set_phone_no(phone_no.strip()):
                     break
             except Exception as e:
                 print("Invalid input. Please enter a valid phone number.")
@@ -73,7 +73,7 @@ class AdminManagementLib:
         while True:
             try:
                 email = input("Enter your email: ")
-                if staff.set_email(email):
+                if staff.set_email(email.strip()):
                     break
             except Exception as e:
                 print("Invalid input. Please enter a valid email.")
@@ -81,7 +81,7 @@ class AdminManagementLib:
         while True:
             try:
                 address = input('Enter the address: ')
-                if staff.set_address(address):
+                if staff.set_address(address.strip()):
                     break
             except Exception as e:
                 print("Invalid input. Please enter a valid address.")
