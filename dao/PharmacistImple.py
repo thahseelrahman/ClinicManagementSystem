@@ -1,6 +1,6 @@
 from dao.PharmacistAbstract import PharmacistDaoService
 from db.db_connection import DBConnection
-from models.pharmacist import Pharmacist, Bill
+from models.pharmacist import Pharmacist
 from typing import List
 
 class PharmacistDaoImplementation(PharmacistDaoService):

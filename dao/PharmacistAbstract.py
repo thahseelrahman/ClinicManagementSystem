@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
 from models.pharmacist import Pharmacist
-from models.pharmacist import Bill
 class PharmacistDaoService(ABC):
     @abstractmethod
     def display_all_medicines(self) -> List[Pharmacist]:

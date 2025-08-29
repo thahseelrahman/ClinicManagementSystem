@@ -1,6 +1,6 @@
 from dao.PharmacistImple import PharmacistDaoImplementation
 from dao.PharmacistAbstract import PharmacistDaoService
-from models.pharmacist import Pharmacist, Bill
+from models.pharmacist import Pharmacist
 from datetime import datetime
 
 class PharmacistManagementLib:

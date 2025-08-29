@@ -1,5 +1,4 @@
 from lib.PharmacistManagement import PharmacistManagementLib
-from lib.PharmacistManagement import BillingManagementLib
 
 
 def pharmamain():
@@ -11,12 +10,12 @@ def pharmamain():
         print("2. List Medicines")
         print("3. Update Medicine")
         print("4. Delete Medicine")
-        print("5. Add Bill")
-        print("6. List Bills")
-        print("7. Search Bill by ID")
-        print("8. Update Bill")
-        print("9. Delete Bill")
-        print("10. Pay Bill")
+        # print("5. Add Bill")
+        # print("6. List Bills")
+        # print("7. Search Bill by ID")
+        # print("8. Update Bill")
+        # print("9. Delete Bill")
+        # print("10. Pay Bill")
         print("0. EXIT")
        
 
@@ -31,19 +30,19 @@ def pharmamain():
         elif choice == "4":
             pharm_lib.delete_medicine()
 
-        elif choice == "5": 
-            BillingManagementLib.add_bill()
+        # elif choice == "5": 
+        #     BillingManagementLib.add_bill()
 
-        elif choice == "6":
-            BillingManagementLib.list_bills()
-        elif choice == "7":
-            BillingManagementLib.search_bill()
-        elif choice == "8":
-            BillingManagementLib.update_bill()
-        elif choice == "9":
-            BillingManagementLib.delete_bill()
-        elif choice == "10":
-            BillingManagementLib.pay_bill()
+        # elif choice == "6":
+        #     BillingManagementLib.list_bills()
+        # elif choice == "7":
+        #     BillingManagementLib.search_bill()
+        # elif choice == "8":
+        #     BillingManagementLib.update_bill()
+        # elif choice == "9":
+        #     BillingManagementLib.delete_bill()
+        # elif choice == "10":
+        #     BillingManagementLib.pay_bill()
         
 
         elif choice == "0":
