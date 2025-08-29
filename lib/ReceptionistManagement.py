@@ -1,3 +1,23 @@
+# Example for doctor module: display all appointments for a doctor
+@staticmethod
+def display_appointments_for_doctor():  # This line is now removed
+    try:
+        from db.db_connection import DBConnection
+        conn = DBConnection().get_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT doc_id FROM doctor")
+        doctors = cursor.fetchall()
+        cursor.close()
+        if not doctors:
+            print("No doctors found.")
+            return
+        print("Available Doctors:")
+        for d in doctors:
+            print(f"ID: {d['doc_id']}")
+        doctor_id = int(input("Enter Doctor Id: "))
+        # ...existing code to display appointments for doctor_id...
+    except Exception as e:
+        print(f"Error displaying doctors: {e}")
 from dao.ReceptionistImple import ReceptionistImple
 from dao.ReceptionistAbstract import ReceptionistAbstract
 from models.receptionist import Patient, Appointment
@@ -122,6 +142,14 @@ class ReceptionmanagementLib:
 
     @staticmethod
     def update_patient():
+        # List available patient IDs and names
+        patients = ReceptionmanagementLib.dao_service.get_all_patients()
+        if not patients:
+            print("No patients found.")
+            return
+        print("Available Patients:")
+        for p in patients:
+            print(f"ID: {p.get_patient_id()} | Name: {p.get_first_name()} {p.get_last_name()}")
         searchid = int(input("Enter Patient Id: "))
         patient = ReceptionmanagementLib.dao_service.get_patient(searchid)
         if not patient:
@@ -204,8 +232,33 @@ class ReceptionmanagementLib:
             appointment = Appointment()
             token_no = int(input("Enter Token Number: "))
             appointment.set_token_no(token_no)
+            # List available patient IDs and names
+            patients = ReceptionmanagementLib.dao_service.get_all_patients()
+            if not patients:
+                print("No patients found. Cannot schedule appointment.")
+                return
+            print("Available Patients:")
+            for p in patients:
+                print(f"ID: {p.get_patient_id()} | Name: {p.get_first_name()} {p.get_last_name()}")
             patient_id = int(input("Enter Patient Id: "))
             appointment.set_patient_id(patient_id)
+            # List available doctor IDs and names
+            try:
+                from db.db_connection import DBConnection
+                conn = DBConnection().get_connection()
+                cursor = conn.cursor(dictionary=True)
+                cursor.execute("SELECT doc_id FROM doctor")
+                doctors = cursor.fetchall()
+                cursor.close()
+                if not doctors:
+                    print("No doctors found. Cannot schedule appointment.")
+                    return
+                print("Available Doctors:")
+                for d in doctors:
+                    print(f"ID: {d['doc_id']} ")
+            except Exception as e:
+                print(f"Error fetching doctors: {e}")
+                return
             doctor_id = int(input("Enter Doctor Id: "))
             appointment.set_doctor_id(doctor_id)
             appointment_date = input("Enter Appointment Date (YYYY-MM-DD): ")
